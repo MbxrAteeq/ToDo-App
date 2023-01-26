@@ -1,15 +1,45 @@
-from typing import Dict, List
+from typing import Dict
+from flask_jwt_extended import create_access_token
+from environs import Env
+from flask_sqlalchemy.session import Session
+from models.user import UserMethods
+
+env = Env()
+env.read_env()
 
 
-def create_user(data: Dict) -> Dict:
+def check_user_already_exists(db: Session, email: str) -> Dict:
+    """
+    Check if user already exists
+    """
+    user_data = UserMethods.get_record_with_(db, email=email)
+    return user_data
+
+
+def create_user(db: Session, data: Dict) -> bool:
     """
     Create user
     """
-    return {}
+    user_data = UserMethods.create_record(data, db)
+    return True if user_data else False
 
 
-def create_token(data: Dict) -> Dict:
+def validate_user(db: Session, data: dict) -> Dict:
     """
-    Create token
+    validate user for login
     """
-    return {}
+    user_data = UserMethods.get_record_with_(
+        db,
+        email=data.get('email'),
+        password=data.get('password'),
+        is_active=True
+    )
+    return user_data
+
+
+def create_token(db: Session, user_data: Dict) -> Dict:
+    """
+    Create JWT token
+    """
+    access_token = create_access_token(identity=user_data["id"])
+    return {access_token: access_token}

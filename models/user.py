@@ -3,9 +3,9 @@ from sqlalchemy import Column, String
 
 
 class User(BaseModel):
+    __tablename__ = 'user'
     name = Column(String)
-    username = Column(String)
-    email = Column(String)
+    email = Column(String, unique=True)
     password = Column(String)
 
 

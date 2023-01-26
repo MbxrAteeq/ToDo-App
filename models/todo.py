@@ -4,13 +4,14 @@ from sqlalchemy import Column, ForeignKey, String, Boolean
 from models.user import User
 
 
-class ToDo(BaseModel):
-    user = relationship(User, backref="todos")
+class Task(BaseModel):
+    __tablename__ = 'task'
+    user = relationship(User, backref="tasks")
     user_id = Column(None, ForeignKey(User.id, ondelete="CASCADE"))
     title = Column(String)
     description = Column(String)
     completed = Column(Boolean, default=False)
 
 
-class ToDoMethods(BaseQueries):
-    model = ToDo
+class TaskMethods(BaseQueries):
+    model = Task
