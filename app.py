@@ -14,9 +14,16 @@ api = Api(app)
 app.config["JWT_SECRET_KEY"] = env("JWT_SECRET_KEY")
 jwt = JWTManager(app)
 
-api.add_resource(TodoTasks, '/todo/<string:todo_id>')
-api.add_resource(UserSignUp, '/signup/<string:todo_id>')
-api.add_resource(UserLogin, '/login/<string:todo_id>')
+
+@app.errorhandler(422)
+def handle_unprocessable_entity(err):
+    messages = err.exc.messages if err.exc else ['Invalid request']
+    return {'status': 'error', 'result': messages}, 422
+
+
+api.add_resource(TodoTasks, '/todo')
+api.add_resource(UserSignUp, '/signup')
+api.add_resource(UserLogin, '/login')
 
 if __name__ == '__main__':
     app.run(debug=True)

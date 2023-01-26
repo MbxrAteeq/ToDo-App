@@ -1,6 +1,12 @@
-from passlib.hash import sha256_crypt
+from passlib.context import CryptContext
+
+PWD_CONTEXT = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 def hash_password(password: str) -> str:
-    password = sha256_crypt.encrypt(password)
+    password = PWD_CONTEXT.hash(password)
     return password
+
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return PWD_CONTEXT.verify(plain_password, hashed_password)

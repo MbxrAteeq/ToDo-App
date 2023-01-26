@@ -13,10 +13,11 @@ class UserRegisterResponseSchema(Schema):
 
 
 class UserLoginRequestSchema(Schema):
-    username = fields.String(required=True)
+    email = fields.String(required=True)
     password = fields.String(required=True)
 
 
 class UserLoginResponseSchema(Schema):
-    pass
+    status = fields.String(required=True)
+    access_token = fields.String(required=True)
 

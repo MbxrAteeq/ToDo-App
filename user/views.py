@@ -34,10 +34,9 @@ class UserLogin(Resource):
     @use_kwargs(UserLoginRequestSchema, locations=['json'])
     @marshal_with(UserLoginResponseSchema, 200)
     def post(self, **kwargs: Dict) -> Dict:
-        password = hash_password(kwargs.get('password'))
         data = {
             "email": kwargs.get('email'),
-            "password": password
+            "password": kwargs.get('password')
         }
         logged_in_user = validate_user(db=db, data=data)
         if not logged_in_user:
