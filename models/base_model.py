@@ -1,7 +1,9 @@
 from datetime import datetime
 from typing import Optional, Dict
+
 from sqlalchemy import Column, Integer, Boolean, DateTime
 from sqlalchemy.orm import Session
+
 from db import Base
 
 
@@ -13,7 +15,9 @@ class BaseModel(Base):
     id = Column(Integer, primary_key=True, index=True)
     is_active = Column(Boolean, default=True)
     created = Column(DateTime, default=datetime.utcnow, nullable=False, index=True)
-    updated = Column(DateTime, default=datetime.utcnow, nullable=False, onupdate=datetime.utcnow)
+    updated = Column(
+        DateTime, default=datetime.utcnow, nullable=False, onupdate=datetime.utcnow
+    )
 
 
 class BaseQueries:

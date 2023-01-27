@@ -1,6 +1,8 @@
 from typing import Dict, List
-from flask_sqlalchemy.session import Session
+
+from sqlalchemy.orm import Session
 from werkzeug.exceptions import BadRequest
+
 from common.constants import TASK_NOT_FOUND
 from models.todo import TaskMethods, Task
 
@@ -27,23 +29,19 @@ def get_task_by_id(db: Session, task_id: int, current_user: int) -> Dict[str, Li
     """
     Get a task by task_id
     """
-    task = TaskMethods.get_record_with_(
-        db, id=task_id,
-        user_id=current_user
-    )
+    task = TaskMethods.get_record_with_(db, id=task_id, user_id=current_user)
     if not task:
         raise BadRequest(TASK_NOT_FOUND)
     return {"tasks": [task]}
 
 
-def update_task(db: Session, task_id: int, description: str, current_user: int, completed: bool) -> Task:
+def update_task(
+    db: Session, task_id: int, description: str, current_user: int, completed: bool
+) -> Task:
     """
     Update task by task_id
     """
-    task = TaskMethods.get_record_with_(
-        db, id=task_id,
-        user_id=current_user
-    )
+    task = TaskMethods.get_record_with_(db, id=task_id, user_id=current_user)
     if not task:
         raise BadRequest(TASK_NOT_FOUND)
     task.description = description if description else task.description
@@ -55,10 +53,7 @@ def delete_task_by_id(db: Session, task_id: int, current_user: int) -> bool:
     """
     Delete a task by task_id
     """
-    task = TaskMethods.get_record_with_(
-        db, id=task_id,
-        user_id=current_user
-    )
+    task = TaskMethods.get_record_with_(db, id=task_id, user_id=current_user)
     if not task:
         raise BadRequest(TASK_NOT_FOUND)
     db.delete(task)
