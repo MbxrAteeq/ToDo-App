@@ -20,6 +20,9 @@ SQLALCHEMY_DATABASE_URI=postgresql://user:password@localhost:port/db_name
 JWT_SECRET_KEY=somesecretkey
 JWT_ALGORITHM=HS256
 JWT_ACCESS_TOKEN_EXPIRES=8
+DECRYPTION_KEY=8123y2ihe42987xsadqw
+COMMON_ENCRYPTION_KEY=asdjk@15r32r1234asdsaeqwe314SEFT
+COMMON_16_BYTE_IV_FOR_AES=IVIVIVIVIVIVIVIV
 ```
 
 ### Run app
@@ -38,3 +41,5 @@ JWT_ACCESS_TOKEN_EXPIRES=8
 #### See Migrations history
 ```alembic history```
 
+### Decrypt Response
+Request this endpoint `/decrypt_data` with json payload containing `decryption_key` and `encrypted_data`.

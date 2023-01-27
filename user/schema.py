@@ -20,3 +20,12 @@ class UserLoginRequestSchema(Schema):
 class UserLoginResponseSchema(Schema):
     status = fields.String(required=True)
     access_token = fields.String(required=True)
+
+
+class DecryptDataRequestSchema(Schema):
+    decryption_key = fields.String(required=True)
+    encrypted_data = fields.String(required=True)
+
+
+class DecryptDataResponseSchema(Schema):
+    decrypted_data = fields.Dict(required=True)
