@@ -2,7 +2,6 @@ from typing import Dict
 from flask_jwt_extended import create_access_token
 from environs import Env
 from flask_sqlalchemy.session import Session
-
 from common.methods import verify_password
 from models.user import UserMethods, User
 

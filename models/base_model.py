@@ -1,4 +1,3 @@
-import re
 from datetime import datetime
 from typing import Optional, Dict
 from sqlalchemy import Column, Integer, Boolean, DateTime

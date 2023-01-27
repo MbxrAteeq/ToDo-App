@@ -4,6 +4,7 @@ from todo.views import TodoTasks
 from user.views import UserSignUp, UserLogin
 from flask_jwt_extended import JWTManager
 from environs import Env
+from datetime import timedelta
 
 env = Env()
 env.read_env()
@@ -12,6 +13,7 @@ env.read_env()
 app = Flask(__name__)
 api = Api(app)
 app.config["JWT_SECRET_KEY"] = env("JWT_SECRET_KEY")
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=int(env("JWT_ACCESS_TOKEN_EXPIRES")))
 jwt = JWTManager(app)
 
 

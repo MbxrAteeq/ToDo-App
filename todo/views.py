@@ -12,12 +12,12 @@ from todo.controller import (
 from todo.schema import (
     TaskGetRequestSchema, TaskGetResponseSchema,
     TaskPostRequestSchema, TaskUpdateRequestSchema,
-    TaskDeleteRequestSchema, TaskDeleteResponseSchema
+    TaskDeleteRequestSchema, TaskDeleteResponseSchema, TasksGetSchema
 )
 
 
 class TodoTasks(Resource):
-    @jwt_required
+    @jwt_required()
     @use_kwargs(TaskGetRequestSchema, locations=['json'])
     @marshal_with(TaskGetResponseSchema, 200)
     def get(self, task_id: int = None):
@@ -26,9 +26,9 @@ class TodoTasks(Resource):
             return get_task_by_id(db, task_id, current_user)
         return get_all_tasks(db, current_user)
 
-    @jwt_required
+    @jwt_required()
     @use_kwargs(TaskPostRequestSchema, locations=['json'])
-    @marshal_with(TaskGetResponseSchema, 200)
+    @marshal_with(TasksGetSchema, 200)
     def post(self, **kwargs: Dict) -> Dict:
         current_user = get_jwt_identity()
         task_data = {
@@ -40,17 +40,18 @@ class TodoTasks(Resource):
         db.commit()
         return resp
 
-    @jwt_required
+    @jwt_required()
     @use_kwargs(TaskUpdateRequestSchema, locations=['json'])
-    @marshal_with(TaskGetResponseSchema, 200)
+    @marshal_with(TasksGetSchema, 200)
     def put(self, task_id: int, **kwargs: Dict) -> Dict:
         current_user = get_jwt_identity()
-        content = kwargs.get('content')
-        resp = update_task(db, task_id, content, current_user)
+        description = kwargs.get('description')
+        completed = kwargs.get('completed')
+        resp = update_task(db, task_id, description, current_user, completed)
         db.commit()
         return resp
 
-    @jwt_required
+    @jwt_required()
     @use_kwargs(TaskDeleteRequestSchema, locations=['json'])
     @marshal_with(TaskDeleteResponseSchema, 200)
     def delete(self, task_id: int) -> Dict:

@@ -20,4 +20,3 @@ class UserLoginRequestSchema(Schema):
 class UserLoginResponseSchema(Schema):
     status = fields.String(required=True)
     access_token = fields.String(required=True)
-

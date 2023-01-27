@@ -5,7 +5,11 @@ from common.methods import hash_password
 from db import db
 from flask_restful import Resource
 from werkzeug.exceptions import BadRequest
-from user.controller import create_user, create_token, check_user_already_exists, validate_user
+from user.controller import (
+    create_user, create_token,
+    check_user_already_exists,
+    validate_user
+)
 from user.schema import (
     UserRegisterRequestSchema, UserRegisterResponseSchema,
     UserLoginRequestSchema, UserLoginResponseSchema
